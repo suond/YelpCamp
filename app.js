@@ -14,9 +14,12 @@ var express    = require("express"),
     MongoStore = require("connect-mongo")(session);
     //var seedDB = require("./seeds");
     //seedDB();
+    
    //will create the db if it doesnt exist
-    //mongoose.connect("mongodb://localhost/yelp_camp");
-   mongoose.connect("mongodb://suond:speedy@ds223760.mlab.com:23760/dsyelpcamp");
+    mongoose.connect(process.env.DATABASEURL);
+   //mongoose.connect("mongodb://suond:speedy@ds223760.mlab.com:23760/dsyelpcamp");
+   
+   
    //routes imports
    var commentRoutes = require("./routes/comments");
    var campgroundsRoutes = require("./routes/campgrounds");
