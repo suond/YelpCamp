@@ -1,0 +1,25 @@
+landing page fixup, dynamic pricing, maybe persistent session
+
+to get persistent session:
+
+npm install connect-mongo
+
+require(connect-mongo)(express-session)
+in the passport config:
+
+//saveUnitialized: false
+//resave: false  both intial value before trying connect mongoose
+app.use(session({
+    secret: "Once again Rusty wins cutest dog!",
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection,
+                            //ttl day * hours * minutes * seconds,  the ttl units uses seconds
+                            ttl : 2*60*60
+    }) 
+    
+}));
+
+added date created to models, shows when comment was created and campgrounds
+have persistent session
+added search function using regex to query database
