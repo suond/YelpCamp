@@ -82,7 +82,7 @@ router.post("/", middleware.isLoggedIn, function(req,res){
       if(error){
          console.log(error);
       }else {
-        console.log(item);
+        //console.log(item);
          //redirect to the campground page
          res.redirect("/campgrounds");
       }
