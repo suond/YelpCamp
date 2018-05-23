@@ -1,9 +1,11 @@
 var express = require("express");
 var router = express.Router();
-
 var passport= require("passport");
 var User = require("../models/user");
-
+var Campground = require("../models/campground");
+var async = require("async");
+var nodemailer = require("nodemailer");
+var crypto = require("crypto");
 
 //===========================
 //// AUTH ROUTES
@@ -16,7 +18,13 @@ router.get("/register", function(req, res) {
 
 //handles signup form
 router.post("/register", function(req, res) {
-   var newUser = new User({username: req.body.username});
+   var newUser = new User({
+      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email
+      
+   });
    User.register(newUser, req.body.password, function(err,user){
       if(err){
          /*can also do 
@@ -72,6 +80,41 @@ router.get("/logout", function(req, res) {
    req.flash("success", "Successfully logged out.");
    res.redirect("/campgrounds"); 
 });
+
+//===================
+//USERS PROFILE//
+//====================
+router.get("/users/:id", function(req, res) {
+   var sameUser = false;
+   User.findById(req.params.id, function(err,foundUser){
+      if(err ||!foundUser){
+         req.flash("error", "Something went wrong");
+         return req.redirect("/");
+      }
+      Campground.find().where("author.id").equals(foundUser._id).exec(function(err,campgrounds) {
+         if(err) {
+            req.flash("error", "Something went wrong");
+            return req.redirect("/");
+         }
+         if(req.user.id === req.params.id){
+            sameUser = true;
+         }
+         res.render("users/show",{user:foundUser,campgrounds: campgrounds,sameUser: sameUser});
+      });
+   });
+});
+//    edit user route ///////
+router.get("/users/:id/edit", function(req, res) {
+   User.findById(req.params.id,function(err, foundUser){
+      if(err || !foundUser) {
+         req.flash("error", "Something went wrong");
+         return req.redirect("/");
+      }
+      res.render("users/edit",{user:foundUser});   
+   });
+    
+});
+
 
 
 module.exports = router;

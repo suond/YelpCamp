@@ -1,0 +1,33 @@
+<% include ../partials/header %>
+
+    <div class="text-center">
+        <h2><%= user.username%>'s Profile</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <ul class="list-unstyled">
+                <li>First Name: <%= user.firstName%> </li>
+                <li>Last Name: <%= user.lastName%> </li>
+                <li>Email <%= user.email%> </li>
+                <li>contact <%= user.username%> <a href="mailto: <%= user.email%>">here</a></li>
+            </ul>
+           
+        </div>
+        <div class="col-md-8">
+            <h3> <%=user.username%>'s campgrounds</h3>
+            <ul class="list-unstyled">
+                <% campgrounds.forEach(function(campground) { %>
+                    <li><a href="/campgrounds/<%= campground.id %>"><%= campground.name%></a></li>
+                
+                <% }); %>
+            </ul>
+        </div>
+    </div>    
+<!--
+    <% if (sameUser) {%>
+        <a class="btn btn-warning" href="/users/<%=user.id %>/edit">Edit Profile</a>
+
+    <% } %>
+    -->
+    
+<% include ../partials/footer %>

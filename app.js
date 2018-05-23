@@ -16,7 +16,9 @@ var express    = require("express"),
     //seedDB();
     
    //will create the db if it doesnt exist
-    mongoose.connect(process.env.DATABASEURL);
+   //backup if the environment url break
+   var dburl = process.env.DATABASEURL || "mongodb://localhost/yelp_camp";
+    mongoose.connect(dburl);
    //mongoose.connect("mongodb://suond:speedy@ds223760.mlab.com:23760/dsyelpcamp");
    
    
