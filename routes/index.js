@@ -96,7 +96,7 @@ router.get("/users/:id", function(req, res) {
             req.flash("error", "Something went wrong");
             return req.redirect("/");
          }
-         if(req.user.id === req.params.id){
+         if(req.user && req.user.id === req.params.id){
             sameUser = true;
          }
          res.render("users/show",{user:foundUser,campgrounds: campgrounds,sameUser: sameUser});
@@ -115,6 +115,15 @@ router.get("/users/:id/edit", function(req, res) {
     
 });
 
+router.put("/users/:id", function(req, res) {
+   User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
+      if(err || !updatedUser) {
+         req.flash("error", "Something went wrong");
+         return req.redirect("/");
+      }
+      return res.redirect("/users/" + req.params.id);
+   });
+});
 
 
 module.exports = router;
