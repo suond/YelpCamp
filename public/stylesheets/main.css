@@ -13,3 +13,8 @@
 .deleteForm {
     display: inline;
 }
+
+#map {
+    height:400;
+    width: 100%;
+}
