@@ -19,7 +19,7 @@ var express    = require("express"),
    //backup if the environment url break
    var dburl = process.env.DATABASEURL || "mongodb://localhost/yelp_camp";
     mongoose.connect(dburl);
-   //mongoose.connect("mongodb://suond:speedy@ds223760.mlab.com:23760/dsyelpcamp");
+   
    
    
    //routes imports
